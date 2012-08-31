@@ -34,12 +34,8 @@ module ADN
   HTTP = Net::HTTP.new(API_HOST, 443)
   HTTP.use_ssl = true
 
-  def self.token=(token)
-    @token = token
-  end
-
-  def self.token
-    @token
+  class << self
+    attr_accessor :token
   end
 
   private
