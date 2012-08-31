@@ -36,6 +36,11 @@ module ADN
 
   class << self
     attr_accessor :token
+
+    def configure
+      yield self
+      self
+    end
   end
 
   private
