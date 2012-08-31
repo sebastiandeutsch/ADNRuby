@@ -46,6 +46,18 @@ module ADN
     def authorize_url
       "#{ADN.auth_url}?client_id=#{ADN.client_id}&response_type=code&redirect_uri=#{URI.escape(ADN.redirect_uri)}&scope=#{ADN.scopes.join('+')}"
     end
+
+    def get_access_token(code)
+      uri = URI.parse(ADN.access_token_url)
+      params = { "client_id" => ADN.client_id, "client_secret" => ADN.client_secret, "grant_type" => "authorization_code", "redirect_uri" => ADN.redirect_uri, "code" => code }
+      http = Net::HTTP.new(uri.host, 443)
+      http.use_ssl = true
+      request = Net::HTTP::Post.new(uri.path)
+      request.add_field("ContentType", "text/xml")
+      request.set_form_data(params)
+      response = http.request(request)
+      JSON.parse(response.body)
+    end
   end
 
   private

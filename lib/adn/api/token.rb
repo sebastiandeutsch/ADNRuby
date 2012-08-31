@@ -4,6 +4,8 @@ module ADN
   module API
     module Token
       def self.current
+        debugger
+
         result = ADN.get("/stream/0/token")
         result["data"] unless result.has_error?
       end
