@@ -3,6 +3,10 @@
 require 'YAML'
 require_relative 'spec_helper'
 
+File.open('adn.yml', 'r') do |f|
+  ADN_CONFIG = YAML.load(f)
+end
+
 describe ADN do
   subject { ADN }
 
@@ -11,10 +15,6 @@ describe ADN do
   }
 
   before do
-    File.open('adn.yml', 'r') do |f|
-      ADN_CONFIG = YAML.load(f)
-    end
-
     ADN.configure do |config|
       config.auth_url         = ADN_CONFIG['auth_url']
       config.access_token_url = ADN_CONFIG['access_token_url']

@@ -1,3 +1,4 @@
+# based on a test app
 auth_url: https://alpha.app.net/oauth/authenticate
 access_token_url: https://alpha.app.net/oauth/access_token
 client_id: es3kBCA3AqdyD3S8DAn6frVg4GmCtT49
