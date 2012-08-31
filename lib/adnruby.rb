@@ -35,11 +35,16 @@ module ADN
   HTTP.use_ssl = true
 
   class << self
+    attr_accessor :auth_url, :access_token_url, :client_id, :client_secret, :redirect_uri, :scopes
     attr_accessor :token
 
     def configure
       yield self
       self
+    end
+
+    def authorize_url
+      "#{ADN.auth_url}?client_id=#{ADN.client_id}&response_type=code&redirect_uri=#{URI.escape(ADN.redirect_uri)}&scope=#{ADN.scopes.join('+')}"
     end
   end
 

@@ -1,5 +1,6 @@
 # encoding: UTF-8
 
+require 'YAML'
 require_relative 'spec_helper'
 
 describe ADN do
@@ -8,6 +9,25 @@ describe ADN do
   let(:example_token) {
     'f1d2d2f924e986ac86fdf7b36c94bcdf32beec15'
   }
+
+  before do
+    File.open('adn.yml', 'r') do |f|
+      ADN_CONFIG = YAML.load(f)
+    end
+
+    ADN.configure do |config|
+      config.auth_url         = ADN_CONFIG['auth_url']
+      config.access_token_url = ADN_CONFIG['access_token_url']
+      config.client_id        = ADN_CONFIG['client_id']
+      config.client_secret    = ADN_CONFIG['client_secret']
+      config.redirect_uri     = ADN_CONFIG['redirect_uri']
+      config.scopes           = ADN_CONFIG['scopes']
+    end
+  end
+
+  it "should generate a valid authorize url" do
+    ADN.authorize_url.must_equal "https://alpha.app.net/oauth/authenticate?client_id=es3kBCA3AqdyD3S8DAn6frVg4GmCtT49&response_type=code&redirect_uri=http://127.0.0.1.xip.io:3000/callback&scope=stream+email+write_post+follow+messages+export"
+  end
 
   it "can set and get a token" do
     subject.token.must_equal nil
