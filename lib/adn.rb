@@ -1,5 +1,6 @@
+
 #
-# ADNRuby - A simple and easy to use App.net Ruby library
+# ADN - A simple and easy to use App.net Ruby library
 #
 # Copyright (c) 2012 Kishyr Ramdial
 #
@@ -22,17 +23,18 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require 'net/https'
 require 'uri'
 require 'json'
 require 'date'
 
-%w{api post user version}.each { |f| require_relative "adn/#{f}" }
+%w{constants api post user version}.each { |f| require_relative "adn/#{f}" }
 
 module ADN
   API_HOST = "alpha-api.app.net"
   HTTP = Net::HTTP.new(API_HOST, 443)
   HTTP.use_ssl = true
+
+  Error = Class.new StandardError
 
   class << self
     attr_accessor :auth_url, :access_token_url, :client_id, :client_secret, :redirect_uri, :scopes
@@ -60,39 +62,11 @@ module ADN
     end
   end
 
-  private
-
-  def self.get_response(request)
-    request.add_field("Authorization", "Bearer #{ADN.token}")
-    response = ADN::HTTP.request(request)
-    JSON.parse(response.body)
+  def self.create_instance(data, type)
+    type.new(data)
   end
 
-  def self.get(url, params = nil)
-    get_url = params.nil? ? url : "#{url}?#{URI.encode_www_form(params)}"
-    self.get_response(Net::HTTP::Get.new(get_url))
-  end
-
-  def self.post(url, params = nil)
-    request = Net::HTTP::Post.new(url)
-    request.set_form_data(params) if params
-    self.get_response(request)
-  end
-
-  def self.put(url, params = nil)
-    request = Net::HTTP::Put.new(url)
-    request.set_form_data(params) if params
-    self.get_response(request)
-  end
-
-  def self.delete(url, params = nil)
-    request = Net::HTTP::Delete.new(url)
-    self.get_response(request)
-  end
-end
-
-class Hash
-  def has_error?
-    self.has_key? "error"
+  def self.create_collection(data, type)
+    data.map { |t| type.new(t) }
   end
 end
