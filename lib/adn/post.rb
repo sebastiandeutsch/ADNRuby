@@ -5,7 +5,7 @@ module ADN
     attr_accessor(
       :post_id, :created_at, :entities,
       :html, :id, :num_replies, :reply_to,
-      :source, :text, :thread_id, :user)
+      :source, :text, :thread_id, :user, :annotations)
 
     def self.send_post(params)
       result = ADN::API::Post.create(params)
