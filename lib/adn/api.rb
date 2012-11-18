@@ -34,9 +34,10 @@ module ADN
         perform(request)
       end
 
-      def post(url, params = nil)
+      def post(url, params = nil, content_type = nil)
         request = construct_request(:post, url)
         request.set_form_data(params) if params
+        request.set_content_type(content_type) if content_type
         perform(request)
       end
 

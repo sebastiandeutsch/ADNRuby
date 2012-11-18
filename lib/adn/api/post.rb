@@ -4,7 +4,11 @@ module ADN
   module API
     module Post
       def self.create(params)
-        ADN::API.post("#{ADN::API_ENDPOINT_POSTS}", params)
+        if params.has_key?(:annotations) or params.has_key?("annotations")
+          ADN::API.post("#{ADN::API_ENDPOINT_POSTS_WITH_ANNOTATIONS}", params)
+        else
+          ADN::API.post("#{ADN::API_ENDPOINT_POSTS}", params)
+        end
       end
 
       def self.retrieve(post_id)
