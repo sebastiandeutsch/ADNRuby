@@ -13,6 +13,8 @@ module ADN
     end
 
     def initialize(raw_post)
+      debugger
+      
       if raw_post.respond_to?(:each_pair)
         set_values(raw_post)
         post_id = id
