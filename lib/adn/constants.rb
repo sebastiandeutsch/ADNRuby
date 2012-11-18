@@ -6,7 +6,7 @@ module ADN
   API_HOST = "alpha-api.app.net"
   API_ENDPOINT = "/stream/0"
   API_ENDPOINT_POSTS = "#{API_ENDPOINT}/posts"
-  API_ENDPOINT_POSTS_WITH_ANNOTATIONS = "#{API_ENDPOINT}?include_post_annotations=1"
+  API_ENDPOINT_POSTS_WITH_ANNOTATIONS = "#{API_ENDPOINT_POSTS}?include_post_annotations=1"
   API_ENDPOINT_USERS = "#{API_ENDPOINT}/users"
   API_ENDPOINT_TOKEN = "#{API_ENDPOINT}/token"
   HTTP = Net::HTTP.new(API_HOST, 443)
