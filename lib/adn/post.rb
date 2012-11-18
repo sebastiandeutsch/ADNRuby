@@ -8,8 +8,6 @@ module ADN
       :source, :text, :thread_id, :user, :annotations)
 
     def self.send_post(params)
-      debugger
-
       result = ADN::API::Post.create(params)
       Post.new(result["data"])
     end

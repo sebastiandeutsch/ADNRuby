@@ -41,6 +41,13 @@ module ADN
         perform(request)
       end
 
+      def post_json(url, params)
+        request = construct_request(:post, url)
+        request.set_content_type("application/json")
+        request.body = params.to_json if params
+        perform(request)
+      end
+
       def put(url, params = nil)
         request = construct_request(:put, url)
         request.set_form_data(params) if params
