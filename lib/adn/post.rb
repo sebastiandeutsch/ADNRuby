@@ -8,13 +8,13 @@ module ADN
       :source, :text, :thread_id, :user, :annotations)
 
     def self.send_post(params)
+      debugger
+
       result = ADN::API::Post.create(params)
       Post.new(result["data"])
     end
 
     def initialize(raw_post)
-      debugger
-      
       if raw_post.respond_to?(:each_pair)
         set_values(raw_post)
         post_id = id
